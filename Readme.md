@@ -8,6 +8,7 @@ This repository contains the slides, tutorial material and (meta)data for the CB
 
 Next-gen sequencing has revolutionised the way we investigate (phylo)genetic relationships. Using traditional techniques, much effort and many resources are required to take NGS data and estimate the relationships between samples. Recent computational advances have allowed researchers to estimate these relationships directly from NGS data. In this tutorial, Kevin Murray will present a brief survey of these methods, before an interactive tutorial on their use. Participants may bring their own NGS data, or we will analyse an example dataset.
 
+![kWIP overview](img/kwip-paper-fig1.png)
 
 ## Suggested background reading
 
