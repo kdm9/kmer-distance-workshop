@@ -14,7 +14,7 @@ AdapterRemoval                                \
     --file1 data/reads/raw/${SAMPLE}.fastq.gz \
     --output1 mydata/${SAMPLE}_qc.fastq.gz    \
     --combined-output                         \
-    --interleaved-output                      \
+    --interleaved                             \
     --trimns                                  \
     --trimqualities                           \
     --trimwindows 10                          \
@@ -22,6 +22,9 @@ AdapterRemoval                                \
     --settings /dev/null                      \
     --gzip
 ```
+
+The interleaved and combined output options are required to get AdapterRemoval to accept interleaved FASTQ formatted reads, and output in the same format.
+
 
 # kWIP analysis
 
@@ -79,11 +82,17 @@ mash sketch \
 
 ## Mash distances
 
+For some reason, one needs to give `mash dist` the sketch file twice to get pairwise distances (it expects a database and query). The `-t` option make mash output a format which is more easily loaded into R.
 
 ```bash
-
-mash dist 
+mash dist \
+    -t \
     mydata/mash_sketch.msh \
     mydata/mash_sketch.msh \
     > mydata/mash_dist.tsv
 ```
+
+
+# Post-analysis
+
+We will now move to an R notebook to perform post-analysis on these distance matrices. Please log into Jupyterhub now.

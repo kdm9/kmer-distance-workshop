@@ -1,15 +1,23 @@
-# (Genetic) Distances from Reads
+# Genetic Distances from Reads
 
-NGS can be considered a sampling process over the underlying genomes of your samples.
+Next-gen sequencing has revolutionised the way we investigate (phylo)genetic relationships. Using traditional techniques, much effort and many resources are required to take NGS data and estimate the relationships between samples. Recent computational advances have allowed researchers to estimate these relationships directly from NGS data.
 
-Distances between read sets for a set of samples should estimate the distances between underlying genomes, if the sampling process of NGS is unbiased.
+NGS can be considered a sampling process over the underlying genomes of your samples. To the extent that this sampling process is uniform and unbiased, distances between read sets for a set of samples estimates the distances between underlying genomes.
+
+As with all distance-based measures, these methods determine the genetic distance between samples *as they are today*. These methods do not attempt to reconstruct the evolutionary history which these samples may have taken. The fact you can create a dendrogram does not mean you're creating a phylogeny (though like other distance-based measures, for recently diverged samples the difference is normally minimal).
+
+Importantly, the distances estimated are an average across the genome (or the assayed portion of thereof for reduced representation methods). No inference of local ancestry can be made, and even relatively major changes in restricted portions of the genome can be "averaged away" if the remainder of the genome is unchanged. Technically, distances are averaged across the *hologenome*, a fancy name for "all the DNA you stuck in the tube". Any contaminants, endophytes, sludge, goop, or human hair that made it in will be treated as though they're all part of your sample's genome.
 
 
 # Tools
 
 ## kWIP
 
-Mash
+kWIP, the $k$-mer weighted inner product, uses a concise representation of kmer counts to record samples, and computes a weighted euclidean distance over these counts. Not all kmers convey the same amount of information when determining the distance between some set of samples. The weighting kWIP applies attempts to reduce the contribution of these kmers to the overall signal between samples.
+
+## Mash
+
+Mash uses a very smart subsampling data structure to estimate the proportion of shared kmers between samples across a random subset of all kmers. It then derives a distance between samples (pairwise mean substitutions per site) from this proportion.
 
 # How?
 
