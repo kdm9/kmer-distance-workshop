@@ -1,0 +1,105 @@
+---
+title: Estimating Genetic Similarity *de novo*
+author: Kevin Murray
+theme: kdmsol
+transition: 'none'
+center: 'false'
+history: 'true'
+date: 2017-11-16
+---
+
+
+------
+
+## Outline
+
+- What are $k$-mers?
+- What are $k$-mer distances?
+- When to use? When not?
+- Tools
+    - kWIP
+    - Mash
+
+------
+
+## $k$-what?
+
+![](imgs/kmer-decomposition.gif){width=50%}
+
+- Overlapping sub-sequences
+
+------
+
+### Sequence comparison
+
+![](imgs/align-vs-alignfree.png)
+
+------
+
+## $k$-mer distances
+
+- Distance between "bag of words"
+    - No alignment
+    - No assembly
+    - No reference
+
+-----
+
+### Benefits
+
+- **Fast**
+* 
+    - More like hologenome
+- Honest about noisy data
+
+-----
+
+
+### Caveats
+
+- **Distance** only -- not phylo
+* Genome average
+    - More like hologenome
+- Honest about noisy data
+    - Especially low coverage
+
+-----
+
+
+## kWIP
+
+***k**-mer **W**eighted **I**nner **P**roduct*
+
+* Estimates genetic similarity
+    - from NGS reads (*de novo*)
+    - over a wide range of divergence
+    - at low coverage
+    - with few assumptions
+
+------
+
+### kWIP Overview
+
+![](imgs/kwip-overview.svg){width=80%}
+
+------
+
+### kWIP Simulation
+
+![](imgs/pi_8x_avgsd.svg){width=100%}
+
+------
+
+### kWIP Simulation
+
+![](imgs/cov_500_avgsd.svg){width=100%}
+
+------
+
+### kWIP Case Study
+
+![*C. reinhartii* population re-sequencing](imgs/chlamy_both_km.svg){width=800px}
+
+------
+
+## Mash
