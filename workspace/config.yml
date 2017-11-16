@@ -1,0 +1,27 @@
+kwip_sketchsize: 2e8
+mash_sketchsize: 2e5
+mash_minabund: 2
+kmersize: 21
+
+samples:
+  - "SRR1734599"
+  - "SRR1734600"
+  - "SRR1734601"
+  - "SRR1734602"
+  - "SRR1734603"
+  - "SRR1734604"
+  - "SRR1734607"
+  - "SRR1734608"
+  - "SRR1734609"
+  - "SRR1734610"
+  - "SRR1734611"
+  - "SRR1734612"
+  - "SRR1734613"
+  - "SRR1734614"
+  - "SRR1734615"
+  - "SRR1734616"
+  - "SRR1734617"
+  - "SRR1734618"
+  - "SRR1734619"
+  - "SRR1734620"
+

@@ -1,0 +1,35 @@
+configfile: "config.yml"
+
+rule all:
+    input:
+        expand("data/reads/raw/{run}.fastq.gz", run=config["samples"])
+
+rule sra:
+    output:
+        temp("data/sra/{run}.sra"),
+    log:
+        "data/log/getrun/{run}.log"
+    shell:
+        "wget -nv -c -O {output}"
+        "   https://sra-download.ncbi.nlm.nih.gov/srapub/{wildcards.run}"
+        " >{log} 2>&1"
+
+
+rule dumpreads:
+    input:
+        "data/sra/{run}.sra",
+    output:
+        "data/reads/raw/{run}.fastq.gz",
+    log:
+        "data/log/dump/{run}.log"
+    shell:
+        "( fastq-dump"
+        "   --split-spot"
+        "   --skip-technical"
+        "   --stdout"
+        "   --readids"
+        "   --defline-seq '@$sn/$ri'"
+        "   --defline-qual '+'"
+        "   {input}"
+        " | gzip >{output}"
+        ") >{log} 2>&1"

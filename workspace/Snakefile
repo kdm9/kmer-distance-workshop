@@ -1,0 +1,147 @@
+configfile: "config.yml"
+
+rule all:
+    input:
+        "data/kwip/kwip_distance.tsv",
+        "data/mash/mash_distance.tsv",
+
+rule qc:
+    input:
+        "data/reads/raw/{run}.fastq.gz",
+    output:
+        "data/reads/qc/{run}.fastq.gz",
+    log:
+        "data/log/qc/{run}.log",
+    shell:
+        "AdapterRemoval"
+        "   --file1 {input}"
+        "   --output1 {output}"
+        "   --combined-output"
+        "   --interleaved"
+        "   --trimns"
+        "   --trimqualities"
+        "   --trimwindows 10"
+        "   --minquality 20"
+        "   --settings /dev/null"
+        "   --gzip"
+
+rule sketch:
+    input:
+        "data/reads/qc/{run}.fastq.gz",
+    output:
+        "data/kwip/sketches/{run}.ct"
+    params:
+        x=config["kwip_sketchsize"],
+        N='1',
+        k=config['kmersize'],
+    threads:
+        2
+    log:
+        "data/log/counts/{run}.log"
+    benchmark:
+        "data/benchmarks/kwip_sketch/{run}.tsv"
+    shell:
+        "load-into-counting.py"
+        "   -N {params.N}"
+        "   -x {params.x}"
+        "   -k {params.k}"
+        "   -T {threads}"
+        "   -f"
+        "   -b"
+        "   -s tsv"
+        "   {output}"
+        "   {input}"
+        "   >{log} 2>&1"
+
+
+rule kwip:
+    input:
+        expand("data/kwip/sketches/{run}.ct", run=config["samples"]),
+    output:
+        d="data/kwip/distance.tsv",
+        k="data/kwip/kernel.tsv"
+    log:
+        "data/log/kwip.log"
+    threads:
+        16
+    shell:
+        "kwip"
+        " -d {output.d}"
+        " -k {output.k}"
+        " -t {threads}"
+        " {input}"
+        " >{log} 2>&1"
+
+
+
+rule mashsketch:
+    input:
+        expand("data/reads/qc/{run}.fastq.gz", run=config["samples"]),
+    output:
+        sketch=temp("data/mash/sketch.msh"),
+    log:
+        "data/log/mashsketch.log"
+    threads:
+        16
+    params:
+        min_abund=config["mash_minabund"],
+        k=config["kmersize"],
+        sketch_size=config["mash_sketchsize"],
+    shell:
+        "(mash sketch "
+        "   -p {threads} "
+        "   -s {params.sketch_size} "
+        "   -k {params.k}"
+        "   -o {output.sketch} "
+        "   -m {params.min_abund} "
+        "   {input}"
+        ") >{log} 2>&1"
+
+
+rule mash:
+    input:
+        "data/mash/sketch.msh",
+    output:
+        mashdist=temp("data/mash/mashdist.txt"),
+    log:
+        "data/log/mash.log",
+    threads:
+        16
+    shell:
+        "(mash dist -p {threads} {input} {input}"
+        " > {output.mashdist}"
+        ") >{log} 2>&1"
+
+
+rule mashdist:
+    input:
+        "data/mash/mashdist.txt",
+    output:
+        "data/mash/mash_distance.tsv",
+    run:
+        from collections import defaultdict
+        from os.path import basename
+        def fname2id(fname):
+            fname = basename(fname)
+            exts = [".gz", ".fastq" "_il"]
+            for ext in exts:
+                if fname.endswith(ext):
+                    fname = fname[:-len(ext)]
+            return fname
+
+        dists = defaultdict(dict)
+        with open(input[0]) as fh:
+            for line in fh:
+                dist = line.strip().split('\t')
+                id1 = fname2id(dist[0])
+                id2 = fname2id(dist[1])
+                dist = float(dist[2])
+                dists[id1][id2] = dist
+
+        with open(output[0], 'w') as ofile:
+            ids = [''] + list(sorted(dists.keys()))
+            print(*ids, sep='\t', file=ofile)
+            for id1, row in sorted(dists.items()):
+                rowdists = [it[1] for it in sorted(row.items())]
+                print(id1, *rowdists, sep='\t', file=ofile)
+
