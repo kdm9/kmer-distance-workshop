@@ -36,6 +36,8 @@ Most tools which create distances between sets of NGS reads do so by decomposing
 
 In computer science, sketches are a class of data structures which efficiently store a large dataset inexactly. kWIP operates on k-mer counts. It uses an efficient, constant-sized data structure[1] to record counts, with a small chance that the counts of two k-mers is combined. Mash operates on the presence or absence of k-mers. Mash uses a sketching data structure which stores a reproducible sub-set of all k-mers[2].
 
+![**Sketching:** kWIP's sketching works by recording all counts in to a constant sized sketch. Occassionally, two kmers will collide (like 1 and 3 do here), but this is rare](img/sketching.gif){width=50%}
+
 [1]: kWIP's data structure is called a Count-min Sketch, or a Counting Bloom Filter
 
 [2]: Mash's data strucutre is a Min-hash, a.k.a a bottom sketch
