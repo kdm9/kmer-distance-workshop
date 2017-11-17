@@ -24,7 +24,7 @@ date: 2017-11-16
 
 ## $k$-what?
 
-![](imgs/kmer-decomposition.gif){width=50%}
+![](img/kmer-decomposition.gif){width=50%}
 
 - Overlapping sub-sequences
 
@@ -32,7 +32,7 @@ date: 2017-11-16
 
 ### Sequence comparison
 
-![](imgs/align-vs-alignfree.png)
+![](img/align-vs-alignfree.png)
 
 ------
 
@@ -69,38 +69,41 @@ date: 2017-11-16
 
 ***k**-mer **W**eighted **I**nner **P**roduct*
 
-![](imgs/kwip-overview.svg){width=80%}
+![](img/kwip-overview.svg){width=80%}
 
 ------
 
 ## How it works
 
-![](imgs/sketching.gif){width=50%}
+![](img/sketching.gif){width=50%}
 
 ------
 
 ## How it works
 
-![](imgs/sketchagg.png){width=80%}
+![](img/sketchagg.png){width=80%}
+
+------
+
+## Mash
+
+- Very fast compeditor
+- Performs less well in some cases
 
 ------
 
 ### kWIP Simulation
 
-![](imgs/pi_8x_avgsd.svg){width=100%}
+![](img/pi_8x_avgsd.svg){width=100%}
 
 ------
 
 ### kWIP Simulation
 
-![](imgs/cov_500_avgsd.svg){width=100%}
+![](img/cov_500_avgsd.svg){width=100%}
 
 ------
 
 ### kWIP Case Study
 
-![*C. reinhartii* population re-sequencing](imgs/chlamy_both_km.svg){width=800px}
-
-------
-
-## Mash
+![*C. reinhartii* population re-sequencing](img/chlamy_both_km.svg){width=800px}
