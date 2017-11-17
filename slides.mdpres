@@ -48,8 +48,7 @@ date: 2017-11-16
 ### Benefits
 
 - **Fast**
-* 
-    - More like hologenome
+* No reference bias
 - Honest about noisy data
 
 -----
@@ -70,17 +69,19 @@ date: 2017-11-16
 
 ***k**-mer **W**eighted **I**nner **P**roduct*
 
-* Estimates genetic similarity
-    - from NGS reads (*de novo*)
-    - over a wide range of divergence
-    - at low coverage
-    - with few assumptions
+![](imgs/kwip-overview.svg){width=80%}
 
 ------
 
-### kWIP Overview
+## How it works
 
-![](imgs/kwip-overview.svg){width=80%}
+![](imgs/sketching.gif){width=50%}
+
+------
+
+## How it works
+
+![](imgs/sketchagg.png){width=80%}
 
 ------
 
