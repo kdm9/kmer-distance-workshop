@@ -2,6 +2,8 @@
 
 Throughout this notebook, I'll give a command for a single sample. This is, a), to avoid overloading the server, and b), because you'll need to generalise this to all your samples however you see fit. Personally, I use and recommend [snakemake](https://snakemake.readthedocs.io/en/stable/) for such purposes. In fact, I have supplied a Snakemake workflow to complete the entire analysis.
 
+![](img/overview.png)
+
 # Preparing reads
 
 Both kWIP and Mash operate directly on sequencing reads. Therefore, reads ought be as free from error and contamination as possible. To this end, it is worth using something like [AdapterRemoval](https://github.com/MikkelSchubert/adapterremoval) to remove adaptor sequences, trim away low quality bases and merge overlapping reads.

@@ -13,9 +13,13 @@ Importantly, the distances estimated are an average across the genome (or the as
 
 ## kWIP
 
+- [Murray *et al.* 2017, **kWIP: The k-mer Weighted Inner Product**](https://doi.org/10.1371/journal.pcbi.1005727)
+
 kWIP, the $k$-mer weighted inner product, uses a concise representation of kmer counts to record samples, and computes a weighted euclidean distance over these counts. Not all kmers convey the same amount of information when determining the distance between some set of samples. The weighting kWIP applies attempts to reduce the contribution of these kmers to the overall signal between samples.
 
 ## Mash
+
+- [Ondov *et al.* 2016, **Mash: fast genome and metagenome distance estimation using MinHash**](https://doi.org/10.1186/s13059-016-0997-x)
 
 Mash uses a very smart subsampling data structure to estimate the proportion of shared kmers between samples across a random subset of all kmers. It then derives a distance between samples (pairwise mean substitutions per site) from this proportion.
 
@@ -25,7 +29,7 @@ Mash uses a very smart subsampling data structure to estimate the proportion of 
 
 Most tools which create distances between sets of NGS reads do so by decomposing these reads into $k$-mers. K-mers are short, overlapping sub-sequences of a sequence. Think of each k-mer as a word (k-mer) in some sentence (a sequence, perhaps a gene or an NGS read). $k$ here is a length in bases, normally in the range 19-23 for our purposes, so we're talking about overlapping sub-sequences of roughly 20 bases.
 
-(Figure on decomposing seqs to k-mers)
+![**K-mers:** Each sequence read (S) can be decomposed into a list of smaller overlapping subsequences (k-mers). These may then be aggregated over all sequence reads, forming the set of kmers for a sample](img/kmer-decomposition.gif)
 
 
 ## Sketching
@@ -33,6 +37,7 @@ Most tools which create distances between sets of NGS reads do so by decomposing
 In computer science, a sketches are a class of data structures which efficiently store a large dataset inexactly. kWIP operates on k-mer counts. It uses an efficient, constant-sized data structure[1] to record counts, with a small chance that the counts of two k-mers is combined. Mash operates on the presence or absence of k-mers. Mash uses a sketching data structure which stores a reproducible sub-set of all k-mers[2].
 
 [1]: kWIP's data structure is called a Count-min Sketch, or a Counting Bloom Filter
+
 [2]: Mash's data strucutre is a Min-hash, a.k.a a bottom sketch
 
 
