@@ -49,7 +49,7 @@ load-into-counting.py      \
     mydata/${SAMPLE}_qc.fastq.gz
 ```
 
-Note that, just like the above `AdapterRemoval` call, this will need to be repeated for each of your samples. If you're using the provided dataset, these have been done for you to reduce server load (see files under `data/counts`).
+Note that, just like the above `AdapterRemoval` call, this will need to be repeated for each of your samples. If you're using the provided dataset, these have been done for you to reduce server load (see files under `data/kwip/sketches`).
 
 ## kWIP distance calculation
 
@@ -60,7 +60,7 @@ And now, we'll use kWIP to compute its distance across our samples. This creates
 kwip                            \
     -k mydata/kwip_kernel.tsv   \
     -d mydata/kwip_distance.tsv \
-    data/counts/*.ct.gz
+    data/kwip/sketches/*.ct.gz
 
 ```
 
