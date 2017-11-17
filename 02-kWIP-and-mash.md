@@ -86,7 +86,7 @@ mash sketch                   \
 
 ## Mash distances
 
-For some reason, one needs to give `mash dist` the sketch file twice to get pairwise distances (it expects a database and query). The `-t` option make mash output a format which is more easily loaded into R.
+For some reason, one needs to give `mash dist` the sketch file twice to get pairwise distances (it expects a database and query). The `-t` option makes mash output a format which is more easily loaded into R (similar to kWIP's).
 
 ```bash
 mash dist                  \

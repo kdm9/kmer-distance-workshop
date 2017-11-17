@@ -29,12 +29,12 @@ Mash uses a very smart subsampling data structure to estimate the proportion of 
 
 Most tools which create distances between sets of NGS reads do so by decomposing these reads into $k$-mers. K-mers are short, overlapping sub-sequences of a sequence. Think of each k-mer as a word (k-mer) in some sentence (a sequence, perhaps a gene or an NGS read). $k$ here is a length in bases, normally in the range 19-23 for our purposes, so we're talking about overlapping sub-sequences of roughly 20 bases.
 
-![**K-mers:** Each sequence read (S) can be decomposed into a list of smaller overlapping subsequences (k-mers). These may then be aggregated over all sequence reads, forming the set of kmers for a sample](img/kmer-decomposition.gif)
+![**K-mers:** Each sequence read (S) can be decomposed into a list of smaller overlapping subsequences (k-mers). These may then be aggregated over all sequence reads, forming the set of kmers for a sample](img/kmer-decomposition.gif){width=50%}
 
 
 ## Sketching
 
-In computer science, a sketches are a class of data structures which efficiently store a large dataset inexactly. kWIP operates on k-mer counts. It uses an efficient, constant-sized data structure[1] to record counts, with a small chance that the counts of two k-mers is combined. Mash operates on the presence or absence of k-mers. Mash uses a sketching data structure which stores a reproducible sub-set of all k-mers[2].
+In computer science, sketches are a class of data structures which efficiently store a large dataset inexactly. kWIP operates on k-mer counts. It uses an efficient, constant-sized data structure[1] to record counts, with a small chance that the counts of two k-mers is combined. Mash operates on the presence or absence of k-mers. Mash uses a sketching data structure which stores a reproducible sub-set of all k-mers[2].
 
 [1]: kWIP's data structure is called a Count-min Sketch, or a Counting Bloom Filter
 
@@ -47,7 +47,7 @@ In computer science, a sketches are a class of data structures which efficiently
 
 kWIP's distance is a weighted euclidean distance between k-mer counts. The weighting applied attempts to reduce the effect of k-mers whose signal to noise ratio is low, specifically those with very low or high frequency across samples. Technically, the weighting uses Shannon's informational entropy, which measures the information content of a k-mer.
 
-![**Shannon Entropy:** Here we plot Shannon's entropy, $H(x)$, across the range of k-mer frequencies. We define k-mer frequency as the proportion of samples in which the k-mer was seen at least once.](img/shannon-entropy.png)
+![**Shannon Entropy:** Here we plot Shannon's entropy, $H(x)$, across the range of k-mer frequencies. We define k-mer frequency as the proportion of samples in which the k-mer was seen at least once.](img/shanent.png){width=50%}
 
 For several reasons, kWIP's distances are arbitrary and relative. That is to say, a distance of 1.02 between two samples does not necessarily translate to the same true genetic distance across two kWIP runs with different samples. This is for two main reasons. kWIP's weighting will change with k-mer frequencies when the set of samples being analysed changes, which alters distances. Similarly, sample distances are normalised such that all self-distances are zero, which will affect all pairwise distances.
 
