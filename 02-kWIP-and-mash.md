@@ -60,7 +60,7 @@ And now, we'll use kWIP to compute its distance across our samples. This creates
 kwip                            \
     -k mydata/kwip_kernel.tsv   \
     -d mydata/kwip_distance.tsv \
-    data/kwip/sketches/*.ct.gz
+    data/kwip/sketches/*.ct
 
 ```
 
@@ -83,6 +83,8 @@ mash sketch                   \
     -o mydata/mash_sketch.msh \
     data/reads/qc/*.fastq.gz
 ```
+
+If this command takes too long, skip it, as I have prepared one at `data/mash/sketch.msh`. Copy this where it is expected with `cp data/mash/sketch.msh mydata/mash_sketch.msh`.
 
 ## Mash distances
 
