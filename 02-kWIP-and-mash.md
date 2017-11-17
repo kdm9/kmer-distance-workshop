@@ -35,17 +35,17 @@ There are two steps to analysis with kWIP: count kmers in reads, then compute di
 
 ## $k$-mer counting
 
-The following counts every 21-mer (see `--ksize`) in the sample into one per-sample sketch (the `.ct.gz` file). Our sketch will have one table (`--n_tables`) and be about 200 million bins in size (`--max-tablesize`). We disable counting very abundant kmers, as this cannot be used by kWIP and just wastes RAM (`--no-bigcount`). A bunch of summary statistics are also created (`--summary-info` enables this). 
+The following counts every 21-mer (see `--ksize`) in the sample into one per-sample sketch (the `.ct.gz` file). Our sketch will have one table (`--n_tables`) and be about 200 million bins in size (`--max-tablesize`). We disable counting very abundant kmers, as this cannot be used by kWIP and just wastes RAM (`--no-bigcount`). A bunch of summary statistics are also created (`--summary-info` enables this).
 
 ```bash
-load-into-counting.py            \
-    --force                      \
-    --ksize 21                   \
-    --no-bigcount                \
-    --n_tables 1                 \
-    --max-tablesize 2e8          \
-    --summary-info tsv           \
-    mydata/${SAMPLE}.ct.gz       \
+load-into-counting.py      \
+    --force                \
+    --ksize 21             \
+    --no-bigcount          \
+    --n_tables 1           \
+    --max-tablesize 2e8    \
+    --summary-info tsv     \
+    mydata/${SAMPLE}.ct.gz \
     mydata/${SAMPLE}_qc.fastq.gz
 ```
 
@@ -53,17 +53,18 @@ Note that, just like the above `AdapterRemoval` call, this will need to be repea
 
 ## kWIP distance calculation
 
-And now, we'll use kWIP to compute its distance across our samples. This creates two matrices: the kernel and distance matrices. The kernel matrix is the raw similarities between all samples (including to themselves). The distance matrix is created from the kernel matrix by normalisation and conversion of similarities to distances.
+And now, we'll use kWIP to compute its distance across our samples. This creates two matrices: the kernel and distance matrices. The kernel matrix is the raw similarities between all samples (including to themselves). The distance matrix is created from the kernel matrix by normalisation and conversion of similarities to distances (distance is akin to $1 - \mathrm{similarity}$).
 
 
 ```bash
-kwip \
-    -k mydata/kwip_kernel.tsv \
+kwip                            \
+    -k mydata/kwip_kernel.tsv   \
     -d mydata/kwip_distance.tsv \
     data/counts/*.ct.gz
+
 ```
 
-Note that the above command uses the count sketches I have pre-prepared, not the one you made. You may add your count sketch is as well, if you wish. kWIP requires that all count sketches are of the same size, and count kmers of the same length (i.e. the `--ksize/-k`, `--n_tables/-N` and `--max-tablesize/-x` arguments to khmer must be the same for all samples).
+Note that the above command uses the count sketches I have pre-prepared, not the one you made. You may add your count sketch in as well, if you wish. kWIP requires that all count sketches are of the same size, and count kmers of the same length (i.e. the `--ksize/-k`, `--n_tables/-N` and `--max-tablesize/-x` arguments to khmer must be the same for all samples).
 
 
 # Mash analysis
@@ -75,9 +76,10 @@ Just like kWIP, mash has two steps: sketching and distance calculation. The `mas
 One uses the `mash sketch` sub-command to sketch many samples into a single sketch file (which contains one sketch per sample, but all concatenated into a single file). One should set a minimum abundance (`-m`) for k-mers to something around 1/10th of your anticipated coverage (luckily for us this is about 20x). The minimum distance mash can detect is $\frac{1}{\mathrm{sketchsize}}$, and the error bound is $\frac{1}{\sqrt{\mathrm{sketchsize}}}$. Therefore we ought increase the default sketch size of 1000 to some tens of thousands.
 
 ```bash
-mash sketch \
-    -s 20000 \
-    -m 2 \
+
+mash sketch                   \
+    -s 20000                  \
+    -m 2                      \
     -o mydata/mash_sketch.msh \
     data/reads/qc/*.fastq.gz
 ```
@@ -87,8 +89,8 @@ mash sketch \
 For some reason, one needs to give `mash dist` the sketch file twice to get pairwise distances (it expects a database and query). The `-t` option make mash output a format which is more easily loaded into R.
 
 ```bash
-mash dist \
-    -t \
+mash dist                  \
+    -t                     \
     mydata/mash_sketch.msh \
     mydata/mash_sketch.msh \
     > mydata/mash_dist.tsv
